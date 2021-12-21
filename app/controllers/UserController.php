@@ -4,14 +4,24 @@ namespace Framework\Controllers;
 
 class UserController {
 
-    public function detailBy($id)
+    public function detailBy()
+    {
+        echo "abc";
+    }
+
+    public function detailId($id)
     {
         echo $id;
     }
 
-    public function detail($id)
+    public function info($info)
     {
-        echo $id;
+        echo $info;
+    }
+
+    public function create()
+    {
+        echo "create";
     }
 
 }

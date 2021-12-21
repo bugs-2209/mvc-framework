@@ -42,27 +42,23 @@ class Router
         
         //Check $path === $this->routeTable
         foreach ($routeTables as $pattern => $value) {
-            if ($pattern === $path) {
-                $this->currentRoute = $routeTables[$pattern];
-                break;
-            }
             $patternScore[] = $this->patternScore($path, $pattern);
         }
-        if ($this->currentRoute != NULL) {
-            usort($patternScore, function($a, $b) {
-                if ($a['score'] === $b['score']) {
+        
+        usort($patternScore, function($a, $b) {
+ 
+            if ($a['score'] === $b['score']) {
+                if ($a['param'] == "" && $b['param'] == "") {
+                    return $a['param'] = $b['param'] = ""; 
+                } else {
                     return count($a['param']) < count($b['param']);
                 }
-                return $a['score'] < $b['score'];
-            });
-
-            $this->currentRoute = self::$routeTable[$method][$patternScore[0]['pattern']];
-            $this->currentRoute['param'] = $patternScore[0]['param'];
-        }
+            }
+            return $a['score'] < $b['score'];
+        });
         
-        echo "<pre>";
-        var_dump($this->currentRoute);
-        die;
+        $this->currentRoute = self::$routeTable[$method][$patternScore[0]['pattern']];
+        $this->currentRoute['param'] = $patternScore[0]['param'];
         //Output: currentRoute = ['controller' => '', 'action' => '', 'params' => ['id' => '...']];
     }
 
