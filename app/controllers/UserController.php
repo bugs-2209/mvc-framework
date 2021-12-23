@@ -2,26 +2,28 @@
 
 namespace Framework\Controllers;
 
-class UserController {
+use Framework\Models\User;
 
-    public function detailBy()
-    {
-        echo "abc";
+class UserController extends BaseController {
+
+    public function __construct() {
+        $this->user = new User();
     }
-
-    public function detailId($id)
+    public function index()
     {
-        echo $id;
-    }
+        $users = $this->user->getAll();
 
-    public function info($info)
-    {
-        echo $info;
+        return $this->view('users.index', ['users' => $users]);
     }
 
     public function create()
     {
-        echo "create";
+        return $this->view('users.create');
     }
 
+    public function edit($id)
+    {
+        $i = $id;
+        return $this->view('users.edit');
+    }
 }

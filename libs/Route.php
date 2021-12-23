@@ -2,7 +2,7 @@
 
 namespace Framework;
 
-class Router
+class Route
 {
     /**
      * @param $pattern
@@ -17,6 +17,14 @@ class Router
     public static function get($path, $ctlAction)
     {
         $method = RouterMethod::GET;
+        $pattern = $path;
+        $dest = explode("@", $ctlAction);
+        self::setRouteTable($method, $pattern, $dest);
+    }
+
+    public static function post($path, $ctlAction)
+    {
+        $method = RouterMethod::POST;
         $pattern = $path;
         $dest = explode("@", $ctlAction);
         self::setRouteTable($method, $pattern, $dest);
@@ -44,12 +52,11 @@ class Router
         foreach ($routeTables as $pattern => $value) {
             $patternScore[] = $this->patternScore($path, $pattern);
         }
-        
+
         usort($patternScore, function($a, $b) {
- 
             if ($a['score'] === $b['score']) {
                 if ($a['param'] == "" && $b['param'] == "") {
-                    return $a['param'] = $b['param'] = ""; 
+                    $a['param'] = $b['param'] = ""; 
                 } else {
                     return count($a['param']) < count($b['param']);
                 }
@@ -71,7 +78,6 @@ class Router
         if (count($path) != count($exPattern)) {
             return ['score' => 0, 'param' => '', 'pattern' => $pattern];
         }
-        
         $score = 0;
         $param = [];
 
@@ -85,7 +91,6 @@ class Router
                 }
             }
         }
-        
         return ['score' => $score, 'param' => $param, 'pattern' => $pattern];
     }
 
@@ -99,12 +104,21 @@ class Router
         }
         return '';
     }
-
+    
     public function getRoute()
     {   
         $this->matching();
         return $this->currentRoute;
     }
 
+    public function matchController()
+    {
+        $current = $this->getRoute();
+        $convertController = "Framework\\Controllers\\".$current['controller']."";
+        $controller = new $convertController;
+        $action = $current['action'];
+        
+        call_user_func_array([$controller, $action], $current['param']);
+    }
 
 }

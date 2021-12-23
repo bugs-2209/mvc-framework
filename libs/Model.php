@@ -1,18 +1,38 @@
 <?php
 
-namespace Framework\Libs;
+namespace Framework;
 
-use Framework\Libs\DB;
+use Framework\DB;
 
 class Model extends DB
 {
     protected $connect;
 
+    protected $table = '';
+
+    protected $fillable = '';
+
+    public $dataList = [];
+
     const SLOW_LOG = 0.5;
 
     public function __construct()
-    {
+    {   
         $this->connect = $this->connect();
+        $this->table = $this->getNameTable();
+    }
+
+    public function getNameTable()
+    {
+        $result = '';
+
+        if ($this->table == '') {
+          $result = str_replace('_model', '', get_class($this));
+        } else{
+          $result = $this->table;
+        }
+    
+        return $result;
     }
 
     public function save($table, $data)
@@ -21,7 +41,7 @@ class Model extends DB
         $fieldList = '';
         //Lưu giá trị tương ứng với field
         $valueList = '';
-
+        
         foreach ($data as $key => $value) {
             $fieldList .= ",$key";
             //mysqli_real_escape_string: Chống SQL Injection - Loại bỏ các ký tự đặc biệt khi được truyền lên
@@ -55,12 +75,12 @@ class Model extends DB
         $this->_query($sql);
     }
     
-    public function getAll($table)
+    public function getAll()
     {
-        $sql = "SELECT * FROM $table";
-
+        $sql = "SELECT * FROM $this->table";
+        
         $result = $this->_query($sql);
-
+        
         if (!$result){
             die ('Query Error !!!');
         }
@@ -72,11 +92,10 @@ class Model extends DB
         while ($row = mysqli_fetch_assoc($result)){
             $data[] = $row;
         }
-
         return $data;
     }
 
-    function getById($table, $id)
+    public function getById($table, $id)
     {
         $sql = "SELECT * FROM $table where id  = $id";
 
@@ -85,7 +104,7 @@ class Model extends DB
         if (!$result){
             die ('Query Error !!!');
         }
- 
+        
         $row = mysqli_fetch_assoc($result);
 
         if ($row){

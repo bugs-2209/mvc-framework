@@ -1,6 +1,6 @@
 <?php
 
-namespace Framework\libs;
+namespace Framework;
 
 class DB {
 
