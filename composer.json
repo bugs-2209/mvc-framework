@@ -3,5 +3,8 @@
         "psr-4": {
             "Framework\\": ["app/", "libs/"]
         }
+    },
+    "require": {
+        "jenssegers/blade": "^1.4"
     }
 }

@@ -6,7 +6,7 @@ class BaseController {
 
     const VIEW_FOLDER = __DIR__ . '/../views';
 
-    protected function view($viewPath, $data = []) 
+    protected function view($viewPath, $data = [])
     {
         foreach ($data as $key => $value) {
             //$$ = Khai báo biến + key
