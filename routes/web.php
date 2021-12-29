@@ -3,6 +3,7 @@
 use Framework\Middlewares\LogMiddleware;
 use Framework\Route;
 
+
 Route::get('/user/list', 'UserController@index');
 Route::get('/user/create', 'UserController@create');
 Route::get('/user/edit/{id}', 'UserController@edit', [LogMiddleware::class]);
@@ -16,5 +17,6 @@ try {
     echo $exception->getMessage();
     exit();
 }
+
 
 $route = $router->matchController();

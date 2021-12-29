@@ -16,4 +16,19 @@ class BaseController {
         return require_once (self::VIEW_FOLDER . '/' . str_replace(".",'/',$viewPath) . '.php');
     }
 
+    protected function response($data, $status = '')
+    {
+        //header_remove() : Clear all header previously
+        header_remove();
+
+        header("Content-type: application/json; charset=utf-8");
+
+        if ($status) {
+            http_response_code(200);
+        } else {
+            http_response_code(500);
+        }
+        
+        return json_encode($data);
+    }
 }

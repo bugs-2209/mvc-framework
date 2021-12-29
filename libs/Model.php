@@ -35,7 +35,7 @@ class Model extends DB
         return $result;
     }
 
-    public function save($table, $data)
+    public function save($data)
     {   
         //Lưu danh sách field
         $fieldList = '';
@@ -48,29 +48,29 @@ class Model extends DB
             $valueList .= ",'".$this->connect->real_escape_string($value)."'";
         }
 
-        $sql = "INSERT INTO ".$table."(".trim($fieldList, ',').") VALUES (".trim($valueList, ',').")";
+        $sql = "INSERT INTO ".$this->table."(".trim($fieldList, ',').") VALUES (".trim($valueList, ',').")";
         
         $this->_query($sql);
     }
     
-    public function update($table, $data, $where)
+    public function update($data, $where)
     {
         $val = '';
         
         foreach ($data as $key => $value){
             $val .= "$key = '".$this->connect->real_escape_string($value)."',";
         }
-
+        
         // Sau vòng lặp biến $val sẽ thừa một dấu , nên ta sẽ dùng hàm trim để xóa đi
-        $sql = 'UPDATE '.$table. ' SET '.trim($val, ',').' WHERE '.$where;
+        $sql = 'UPDATE '.$this->table. ' SET '.trim($val, ',').' WHERE '.$where;
         
         $this->_query($sql);
     }
 
-    public function delete($table, $id)
+    public function destroy($id)
     {    
         // Delete
-        $sql = "DELETE FROM $table WHERE $id";
+        $sql = "DELETE FROM $this->table WHERE $id";
 
         $this->_query($sql);
     }
@@ -92,12 +92,13 @@ class Model extends DB
         while ($row = mysqli_fetch_assoc($result)){
             $data[] = $row;
         }
+
         return $data;
     }
 
-    public function getById($table, $id)
+    public function findById($id)
     {
-        $sql = "SELECT * FROM $table where id  = $id";
+        $sql = "SELECT * FROM $this->table WHERE id  = $id";
 
         $result = $this->_query($sql);
  
