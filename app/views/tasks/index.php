@@ -5,8 +5,9 @@
         <div class="row d-flex justify-content-center align-items-center h-100">
         <div class="col col-lg-9 col-xl-7">
             <div class="card rounded-3">
+                <a href="/" class="btn btn-dark">Back</a>
             <div class="card-body p-4">
-
+                
                 <h4 class="text-center my-3 pb-3">To Do App</h4>
 
                 <form class="row row-cols-lg-auto g-3 justify-content-center align-items-center mb-4 pb-2">
@@ -72,17 +73,19 @@
                     <div class="col-md-12">
                         <label>Task Name</label>
                         <input type="text" name="name" class="form-control name">
+                        <span class="notification text-danger"></span>
                     </div>
                     <div class="col-md-12">
                         <label>Task Description</label>
                         <textarea name="description" id="" class="form-control description" cols="30" rows="10"></textarea>
+                        <span class="notification text-danger"></span>
                     </div>
                     <div class="col-md-12">
                         <label>User: </label>
                         <select name="user_id" id="" class="form-control user-id">
-                            <option value="1">A</option>
-                            <option value="2">B</option>
-                            <option value="3">C</option>
+                            <?php foreach ($users as $user) { ?>
+                                <option value="<?php echo $user['id'] ?>"><?php echo $user['name'] ?></option>
+                                <?php } ?>
                         </select>
                     </div>
                 </div>
@@ -101,34 +104,21 @@
     <div class="modal-dialog">
         <div class="modal-content">
         <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLabel">Add Task</h5>
+            <h5 class="modal-title" id="exampleModalLabel">Update task</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-12">
-                        <label>Task Name</label>
-                        <input type="text" name="name" <?php echo $task['name'] ?> class="form-control name">
-                    </div>
-                    <div class="col-md-12">
-                        <label>Task Description</label>
-                        <textarea name="description" id="" class="form-control description" cols="30" rows="10"></textarea>
-                    </div>
-                    <div class="col-md-12">
-                        <label>User: </label>
-                        <select name="user_id" id="" class="form-control user-id">
-                            <option value="1">A</option>
-                            <option value="2">B</option>
-                            <option value="3">C</option>
-                        </select>
+                    <div id="edit-table">
+                        
                     </div>
                 </div>
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-primary add-task">Save changes</button>
+            <button type="button" data-id="" class="btn btn-primary update-task">Update</button>
         </div>
         </div>
     </div>

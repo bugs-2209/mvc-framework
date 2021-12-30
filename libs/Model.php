@@ -70,7 +70,7 @@ class Model extends DB
     public function destroy($id)
     {    
         // Delete
-        $sql = "DELETE FROM $this->table WHERE $id";
+        $sql = "DELETE FROM $this->table WHERE id = $id";
 
         $this->_query($sql);
     }

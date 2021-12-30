@@ -30,4 +30,9 @@ class TaskRepository implements TaskRepositoryInterface {
     {
         return $this->model->findById($id);
     }
+
+    public function updateTask($attributes, $id)
+    {
+        return $this->model->update($attributes, $id);
+    }
 }

@@ -111,9 +111,10 @@ class Route
                 }
             }
         }
+
         return ['score' => $score, 'param' => $param, 'pattern' => $pattern];
     }
-
+    
     private function convertParam($value)
     {
         $start = substr($value, 0, 1);

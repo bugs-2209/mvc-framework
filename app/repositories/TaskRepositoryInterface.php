@@ -12,4 +12,5 @@ interface TaskRepositoryInterface {
 
     public function edit($id);
     
+    public function updateTask($data, $id);
 }
