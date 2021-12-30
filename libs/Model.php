@@ -60,10 +60,10 @@ class Model extends DB
         foreach ($data as $key => $value){
             $val .= "$key = '".$this->connect->real_escape_string($value)."',";
         }
-        
+
         // Sau vòng lặp biến $val sẽ thừa một dấu , nên ta sẽ dùng hàm trim để xóa đi
-        $sql = 'UPDATE '.$this->table. ' SET '.trim($val, ',').' WHERE '.$where;
-        
+        $sql = 'UPDATE '.$this->table. ' SET '.trim($val, ',').' WHERE id = '.$where;
+
         $this->_query($sql);
     }
 
@@ -117,38 +117,9 @@ class Model extends DB
 
     private function _query($sql)
     {   
-        $started = microtime(true) * 1000;
         //run query
         $result = mysqli_query($this->connect, $sql);
         
-        $excuteTime = microtime(true) * 1000 - $started;
-        
-        if ($excuteTime > self::SLOW_LOG) {
-            $this->writeLog($sql, $excuteTime);
-        }
-
         return $result;
-    }
-
-    public function writeLog($sql, $time)
-    {
-        $log = [
-            'logMessage' => 'Slow Log',
-            'logDatatime' => date('Y-m-d H:i:s'),
-            'data' => ['sql' => $sql, 'time' => $time],
-        ];
-        
-        $this->log(json_encode($log));        
-    }
-
-    public function log($txt)
-    {
-        $fileLog = $txt;
-        file_put_contents(''.date("Ymd").'.txt', $fileLog);
-
-        $folderOld = "".dirname(__DIR__)."\\public\\".date("Ymd").".txt";
-        $folderNew = "".dirname(__DIR__)."\\logs\\mysql\\".date("Ymd").".txt";
-
-        rename($folderOld, $folderNew);
     }
 }

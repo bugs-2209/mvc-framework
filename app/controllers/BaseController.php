@@ -29,6 +29,6 @@ class BaseController {
             http_response_code(500);
         }
         
-        return json_encode($data);
+        echo json_encode($data);
     }
 }

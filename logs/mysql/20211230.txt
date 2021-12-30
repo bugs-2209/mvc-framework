@@ -1,0 +1,1 @@
+{"logMessage":"Slow Log","logDatatime":"2021-12-30 11:10:00","data":{"sql":"INSERT INTO tasks(name,description,user_id) VALUES ('S\u1ea3n ph\u1ea9m 1','111','2')","time":8.627197265625}}

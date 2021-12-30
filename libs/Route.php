@@ -57,7 +57,7 @@ class Route
         foreach ($routeTables as $pattern => $value) {
             $patternScore[] = $this->patternScore($path, $pattern);
         }
-
+        
         usort($patternScore, function($a, $b) {
             if ($a['score'] === $b['score']) {
                 if ($a['param'] == "" && $b['param'] == "") {
@@ -126,7 +126,7 @@ class Route
     }
     
     public function getRoute()
-    {   
+    {
         $this->matching();
         return $this->currentRoute;
     }
